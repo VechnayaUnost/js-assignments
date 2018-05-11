@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 /**
@@ -37,13 +37,13 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+    return Date.parse(value);
 }
 
 
 /**
  * Returns true if specified date is leap year and false otherwise
- * Please find algorithm here: https://en.wikipedia.org/wiki/Leap_year#Algorithm
+     * Please find algorithm here: https://en.wikipedia.org/wiki/Leap_year#Algorithm
  *
  * @param {date} date
  * @return {bool}
@@ -56,7 +56,14 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
+   var year = date.getFullYear();
+   if (year%4!=0)
+       return false;
+   else if (year%100!=0)
+       return true;
+   else if (year%400!=0)
+       return false;
+   else return true;
 }
 
 
@@ -76,7 +83,23 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
+    function addZero(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+    function addtwoZero(i) {
+        if (i < 100) {
+            i = "00" + i;
+        }
+        return i;
+    }
+    var mil = addtwoZero(endDate.getMilliseconds() - startDate.getMilliseconds());
+    var s = addZero(endDate.getSeconds() - startDate.getSeconds());
+    var m = addZero(endDate.getMinutes() - startDate.getMinutes());
+    var h = addZero(endDate.getHours() - startDate.getHours());
+    return h+":"+m+":"+s+"."+mil;
 }
 
 
@@ -94,7 +117,12 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+    var hours= date.getUTCHours();
+    if (hours>=12)
+        hours -=12;
+    var min = date.getUTCMinutes();
+    var angle = Math.abs(hours*30 - min*6 + min/60*30)*Math.PI/180;
+    return Math.min(angle, 2*Math.PI - angle);
 }
 
 
