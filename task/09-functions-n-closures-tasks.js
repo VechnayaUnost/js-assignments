@@ -178,7 +178,8 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-    return (...x) => fn(...Array.from(arguments).slice(1,), ...x)
+    throw new Error('Not implemented');
+    /*return (...x) => fn(...Array.from(arguments).slice(1,), ...x)*/
 }
 
 
